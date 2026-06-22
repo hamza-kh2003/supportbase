@@ -15,6 +15,6 @@ class Topbar extends Component
 
     public function render()
     {
-        return view('livewire.topbar');
+        return view('livewire.topbar',['user' => auth()->user()]);
     }
 }

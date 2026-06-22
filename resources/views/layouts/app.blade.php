@@ -17,9 +17,9 @@
 
     {{-- Tabler Icons --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
-
+   <link rel="icon" href="{{ asset('images/download.png') }}" type="image/png" >
     {{-- Custom CSS --}}
-    <link rel="stylesheet" href="{{ asset('css/supportbase.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/supportbase.css') }}"  />
 
     @livewireStyles
 </head>
@@ -34,40 +34,7 @@
         <div class="sb-body">
 
             {{-- ═══ SIDEBAR ═══ --}}
-            <nav class="sb-sidebar" id="sidebar">
-                <div class="sb-nav-section">
-                    <a href="{{ route('kb') }}" class="sb-nav-item {{ request()->routeIs('kb') ? 'active' : '' }}">
-                        <i class="ti ti-books"></i> Knowledge Base
-                    </a>
-                    <a href="{{ route('profile') }}"
-                        class="sb-nav-item {{ request()->routeIs('profile') ? 'active' : '' }}">
-                        <i class="ti ti-user-circle"></i> My Account
-                    </a>
-                </div>
-
-                {{-- Admin-only section --}}
-                {{-- @if(auth()->user()->role === 'admin') --}}
-                <div class="sb-nav-section">
-                    <div class="sb-nav-label">Admin</div>
-                    <a href="{{ route('users') }}"
-                        class="sb-nav-item {{ request()->routeIs('users') ? 'active' : '' }}">
-                        <i class="ti ti-users"></i> Users
-                    </a>
-                    <a href="{{ route('departments') }}"
-                        class="sb-nav-item {{ request()->routeIs('departments') ? 'active' : '' }}">
-                        <i class="ti ti-building"></i> Departments
-                    </a>
-                    <a href="{{ route('products') }}"
-                        class="sb-nav-item {{ request()->routeIs('products') ? 'active' : '' }}">
-                        <i class="ti ti-box"></i> Products
-                    </a>
-                    <a href="{{ route('priorities') }}"
-                        class="sb-nav-item {{ request()->routeIs('priorities') ? 'active' : '' }}">
-                        <i class="ti ti-flag"></i> Priorities
-                    </a>
-                </div>
-                {{-- @endif --}}
-            </nav>
+           <livewire:sidebar />
 
             {{-- ═══ MAIN CONTENT ═══ --}}
             <main class="sb-main">
@@ -81,21 +48,27 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('collapsed');
-        }
+       // في ملف app.blade.php، عدل السكريبت ليكون هكذا:
+document.addEventListener('livewire:navigated', () => {
+    
+    // ضع أكواد التوجل والـ Click هنا لتضمن عملها بعد كل تنقل بدون ريفريش
+    window.toggleSidebar = function() {
+        document.getElementById('sidebar').classList.toggle('collapsed');
+    }
 
-        function toggleProfileMenu() {
+    window.toggleProfileMenu = function() {
+        const m = document.getElementById('profileMenu');
+        if(m) m.style.display = m.style.display === 'none' ? 'block' : 'none';
+    }
+
+    document.addEventListener('click', function (e) {
+        if (!e.target.closest('#avatarWrap')) {
             const m = document.getElementById('profileMenu');
-            m.style.display = m.style.display === 'none' ? 'block' : 'none';
+            if (m) m.style.display = 'none';
         }
-
-        document.addEventListener('click', function (e) {
-            if (!e.target.closest('#avatarWrap')) {
-                const m = document.getElementById('profileMenu');
-                if (m) m.style.display = 'none';
-            }
-        });
+    });
+    
+});
     </script>
 
     @livewireScripts

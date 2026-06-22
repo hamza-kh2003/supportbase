@@ -18,19 +18,20 @@
 
     <div class="sb-topbar-right">
         {{-- Role badge --}}
-        <span class="sb-role-badge admin">Admin</span>
+        <span class="sb-role-badge admin">{{$user->role}}</span>
         {{-- change to class="sb-role-badge user" for user role --}}
 
         {{-- Avatar + dropdown --}}
         <div class="sb-avatar-wrap" id="avatarWrap">
-            <div class="sb-avatar" onclick="toggleProfileMenu()">HA</div>
+            <div class="sb-avatar" onclick="toggleProfileMenu()">{{ strtoupper(substr($user->name, 0, 2))}}</div>
             <div class="sb-profile-menu" id="profileMenu" style="display:none">
                 <div class="sb-pm-info">
-                    <div class="sb-pm-name">Hamza Admin</div>
-                    <div class="sb-pm-email">admin@sb.com</div>
+                    <div class="sb-pm-name">{{ $user->name }}</div>
+                    <div class="sb-pm-email">{{ $user->email }}</div>
                 </div>
                 <hr />
-                <a href="{{ route('profile') }}" class="sb-pm-btn">
+                @auth
+                <a href="{{ route('profile') }}" wire:navigate class="sb-pm-btn">
                     <i class="ti ti-user"></i> My profile
                 </a>
                 <a href="{{ route('logout') }}" class="sb-pm-btn danger"
@@ -40,6 +41,7 @@
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display:none">
                     @csrf
                 </form>
+                @endauth
             </div>
         </div>
     </div>
