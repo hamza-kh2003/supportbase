@@ -24,6 +24,12 @@ public $form = [
     $this->modalTitle = 'Add Product';
 }
 
+public function closeModal()
+{
+    $this->reset('showModal');
+    $this->resetValidation();
+}       
+
 public function edit($id)
 {
     $product = Product::findOrFail($id);

@@ -23,7 +23,11 @@ class Departments extends Component
         $this->modalTitle = 'Add Department';
         $this->showModal = true;
     }
-
+  public function closeModal()
+{
+    $this->reset('showModal');
+    $this->resetValidation();
+}       
     public function edit($id)
     {
         $dept = Department::findOrFail($id);
@@ -44,7 +48,7 @@ class Departments extends Component
         $dept = Department::findOrFail($id);
 
         // soft delete style name marking (optional like yours)
-        $dept->name = $dept->name . " (deleted {$id})";
+        $dept->name = $dept->name . "deleted {$id}";
         $dept->save();
 
         $dept->delete();

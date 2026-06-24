@@ -46,7 +46,7 @@
                 <div class="sb-modal-header">
                     <span>{{ $modalTitle }}</span>
 
-                    <button wire:click="$set('showModal', false)">
+                    <button wire:click="closeModal">
                         <i class="ti ti-x"></i>
                     </button>
                 </div>
@@ -66,7 +66,7 @@
 
                 <div class="sb-modal-footer">
 
-                    <button class="sb-btn-outline" wire:click="$set('showModal', false)">
+                    <button class="sb-btn-outline" wire:click="closeModal">
                         Cancel
                     </button>
 

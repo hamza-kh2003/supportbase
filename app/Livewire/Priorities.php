@@ -23,6 +23,11 @@ class Priorities extends Component
         $this->modalTitle = 'Add Priority';
         $this->showModal = true;
     }
+    public function closeModal()
+{
+    $this->reset('showModal');
+    $this->resetValidation();
+}       
 
     public function edit($id)
     {
@@ -43,7 +48,7 @@ class Priorities extends Component
     {
         $priority = Priority::findOrFail($id);
 
-        $priority->name = $priority->name . " (deleted {$id})";
+        $priority->name = $priority->name . "deleted {$id}";
         $priority->save();
 
         $priority->delete();

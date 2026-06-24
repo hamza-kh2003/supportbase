@@ -29,12 +29,12 @@
             @forelse($articles as $article)
                 <div class="sb-article-item {{ $activeArticleId == $article->id ? 'active' : '' }}"
                     wire:click="selectArticle({{ $article->id }})">
-                    <div class="sb-article-name">{{ $article->title }}</div>
+                    <div class="sb-article-name">{{ $article->title??"N/A" }}</div>
                     <div class="sb-article-tags">
-                        <span class="sb-tag sb-tag-dept">{{ $article->department->name }}</span>
-                        <span class="sb-tag sb-tag-prod">{{ $article->product->name }}</span>
-                        <span class="sb-tag sb-tag-prior-{{ strtolower($article->priority->name) }}">
-                            {{ $article->priority->name }}
+                        <span class="sb-tag sb-tag-dept">{{ $article->department->name??"N/A" }}</span>
+                        <span class="sb-tag sb-tag-prod">{{ $article->product->name??"N/A" }}</span>
+                        <span class="sb-tag sb-tag-prior-{{ strtolower($article->priority->name??'N/A') }}">
+                            {{ $article->priority->name??"N/A" }}
                         </span>
                     </div>
                 </div>
@@ -68,10 +68,10 @@
                 <div class="sb-detail-header">
                     <div class="sb-detail-title">{{ $activeArticle->title }}</div>
                     <div class="sb-detail-tags">
-                        <span class="sb-tag sb-tag-dept">{{ $activeArticle->department->name }}</span>
-                        <span class="sb-tag sb-tag-prod">{{ $activeArticle->product->name }}</span>
-                        <span class="sb-tag sb-tag-prior-{{ strtolower($activeArticle->priority->name) }}">
-                            {{ $activeArticle->priority->name }}
+                        <span class="sb-tag sb-tag-dept">{{ $activeArticle->department->name??"N/A" }}</span>
+                        <span class="sb-tag sb-tag-prod">{{ $activeArticle->product->name??"N/A" }}</span>
+                        <span class="sb-tag sb-tag-prior-{{ strtolower($activeArticle->priority->name??'N/A') }}">
+                            {{ $activeArticle->priority->name??"N/A" }}
                         </span>
                     </div>
                     <div class="sb-detail-desc">{{ $activeArticle->description }}</div>
