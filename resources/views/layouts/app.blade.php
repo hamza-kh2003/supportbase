@@ -8,8 +8,9 @@
 
     {{-- Fonts --}}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap"
         rel="stylesheet" />
 
     {{-- Bootstrap 5 CDN --}}
@@ -36,6 +37,9 @@
             {{-- ═══ SIDEBAR ═══ --}}
            <livewire:sidebar />
 
+            {{-- ═══ SIDEBAR BACKDROP FOR MOBILE ═══ --}}
+            <div class="sb-sidebar-backdrop" onclick="toggleSidebar()"></div>
+
             {{-- ═══ MAIN CONTENT ═══ --}}
             <main class="sb-main">
                 {{ $slot }}
@@ -48,27 +52,43 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-       // في ملف app.blade.php، عدل السكريبت ليكون هكذا:
-document.addEventListener('livewire:navigated', () => {
-    
-    // ضع أكواد التوجل والـ Click هنا لتضمن عملها بعد كل تنقل بدون ريفريش
-    window.toggleSidebar = function() {
-        document.getElementById('sidebar').classList.toggle('collapsed');
-    }
-
-    window.toggleProfileMenu = function() {
-        const m = document.getElementById('profileMenu');
-        if(m) m.style.display = m.style.display === 'none' ? 'block' : 'none';
-    }
-
-    document.addEventListener('click', function (e) {
-        if (!e.target.closest('#avatarWrap')) {
-            const m = document.getElementById('profileMenu');
-            if (m) m.style.display = 'none';
+        function applyMobileSidebarDefault() {
+            if (window.innerWidth <= 768) {
+                const sidebar = document.getElementById('sidebar');
+                if (sidebar) sidebar.classList.add('collapsed');
+                document.body.classList.remove('sb-sidebar-open');
+            }
         }
-    });
-    
-});
+
+        document.addEventListener('DOMContentLoaded', applyMobileSidebarDefault);
+
+        document.addEventListener('livewire:navigated', () => {
+            applyMobileSidebarDefault();
+            
+            window.toggleSidebar = function() {
+                const sidebar = document.getElementById('sidebar');
+                if (sidebar) {
+                    sidebar.classList.toggle('collapsed');
+                    if (!sidebar.classList.contains('collapsed')) {
+                        document.body.classList.add('sb-sidebar-open');
+                    } else {
+                        document.body.classList.remove('sb-sidebar-open');
+                    }
+                }
+            }
+
+            window.toggleProfileMenu = function() {
+                const m = document.getElementById('profileMenu');
+                if(m) m.style.display = m.style.display === 'none' ? 'block' : 'none';
+            }
+
+            document.addEventListener('click', function (e) {
+                if (!e.target.closest('#avatarWrap')) {
+                    const m = document.getElementById('profileMenu');
+                    if (m) m.style.display = 'none';
+                }
+            });
+        });
     </script>
 
     @livewireScripts

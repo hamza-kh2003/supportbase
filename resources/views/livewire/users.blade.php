@@ -36,14 +36,14 @@
 
                 @foreach($users as $user)
                     <tr>
-                        <td><strong>{{ $user['name'] }}</strong></td>
-                        <td>{{ $user['email'] }}</td>
-                        <td>
+                        <td data-label="Name"><strong>{{ $user['name'] }}</strong></td>
+                        <td data-label="Email">{{ $user['email'] }}</td>
+                        <td data-label="Role">
                             <span class="sb-tag {{ $user['role'] === 'admin' ? 'sb-tag-role-admin' : 'sb-tag-role-user' }}">
                                 {{ ucfirst($user['role']) }}
                             </span>
                         </td>
-                        <td>
+                        <td data-label="Actions">
                             <div class="sb-actions">
                                 <button class="sb-action-btn" wire:click="edit({{ $user->id }})">
                                     <i class="ti ti-edit"></i> Edit
@@ -51,7 +51,7 @@
                                 <button class="sb-action-btn del"
                                     onclick="return confirm('Are you sure you want to delete this user?') || event.stopImmediatePropagation()"
                                     wire:click="delete({{ $user->id }})">
-                                    <i class="ti ti-trash"></i>
+                                    <i class="ti ti-trash"></i> Delete
                                 </button>
                             </div>
                         </td>

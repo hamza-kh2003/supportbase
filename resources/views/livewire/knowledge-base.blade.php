@@ -1,4 +1,4 @@
-<div class="sb-kb-layout">
+<div class="sb-kb-layout {{ $activeArticleId ? 'sb-article-selected' : '' }}">
 
     {{-- ═══ LEFT PANEL ═══ --}}
     <div class="sb-kb-left">
@@ -66,6 +66,9 @@
             <div style="flex:1; display:flex; flex-direction:column; overflow:hidden;">
 
                 <div class="sb-detail-header">
+                    <button class="sb-mobile-back-btn sb-btn-outline" wire:click="selectArticle(null)">
+                        <i class="ti ti-arrow-left"></i> Back to articles
+                    </button>
                     <div class="sb-detail-title">{{ $activeArticle->title }}</div>
                     <div class="sb-detail-tags">
                         <span class="sb-tag sb-tag-dept">{{ $activeArticle->department->name??"N/A" }}</span>
