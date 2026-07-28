@@ -1,14 +1,14 @@
 <?php
 
 namespace App\Livewire;
-
+use App\Events\ArticleCreated;
 use Livewire\Component;
 use App\Models\Article;
 use App\Models\Step;
 use App\Models\Department;
 use App\Models\Product;
 use App\Models\Priority;
-
+use App\Models\Notification;
 class KnowledgeBase extends Component
 {
     public $search = '';
@@ -135,6 +135,16 @@ class KnowledgeBase extends Component
                 'priority_id' => $this->form['priority_id'],
                 'user_id' => auth()->id(),
             ]);
+                 
+
+      Notification::create([
+        'article_id' => $article->id,
+        'title' => $article->title,
+        'user_name' => auth()->user()->name,
+    ]);
+
+
+            ArticleCreated::dispatch($article);
         }
 
         foreach ($this->steps as $i => $step) {
