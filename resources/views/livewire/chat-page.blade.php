@@ -5,7 +5,7 @@
         <h6 class="p-3 mb-0 border-bottom">💬 Conversations</h6>
         @foreach ($users as $user)
             <div wire:click="selectUser({{ $user->id }})"
-                class="d-flex align-items-center gap-2 p-3 border-bottom {{ $selectedUserId == $user->id ? 'bg-white' : '' }}"
+                class="d-flex align-items-center gap-2 p-3 border-bottom {{ $selectedUserId == $user->id ? 'bg-primary' : '' }}"
                 style="cursor: pointer; transition: background 0.15s;">
 
                 <div class="position-relative">

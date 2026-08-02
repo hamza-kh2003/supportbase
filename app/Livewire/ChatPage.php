@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\User;
 use App\Models\DirectMessage;
 use Livewire\Attributes\On;
+use App\Events\DirectMessageSent;
 
 class ChatPage extends Component
 {
@@ -53,7 +54,7 @@ public function markMessageRead($messageId)
             'body' => $this->body,
         ]);
 
-        \App\Events\DirectMessageSent::dispatch($message);
+        DirectMessageSent::dispatch($message);
 
         $this->body = '';
         $this->dispatch('message-sent'); 

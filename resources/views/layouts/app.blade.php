@@ -121,6 +121,7 @@
                 });
         });
     </script>
+    {{-- ═══ LIVE CHAT ═══ --}}
     <script type="module">
         window.addEventListener('load', () => {
 
@@ -133,25 +134,42 @@
             });
 
             // ═══ 1. Presence Channel: مين أونلاين هلأ ═══
+            let onlineUserIds = new Set();
             window.Echo.join('online')
                 .here((users) => {
-                    users.forEach(u => markOnline(u.id));
+                    users.forEach(u => {
+                        onlineUserIds.add(u.id);
+                        markOnline(u.id);
+
+                    });
                 })
                 .joining((user) => {
+                    onlineUserIds.add(user.id);
                     markOnline(user.id);
                 })
                 .leaving((user) => {
+                    onlineUserIds.delete(user.id);
                     markOffline(user.id);
                 });
 
             function markOnline(userId) {
                 const dot = document.querySelector(`.online-dot[data-user-id="${userId}"]`);
-                if (dot) dot.style.background = '#28a745'; // أخضر = أونلاين
+                if (dot) dot.style.background = '#28a745';
             }
 
             function markOffline(userId) {
                 const dot = document.querySelector(`.online-dot[data-user-id="${userId}"]`);
-                if (dot) dot.style.background = '#ccc'; // رمادي = أوفلاين
+                if (dot) dot.style.background = '#ccc';
+            }
+
+            // ⭐ الجزء الجديد: إعادة تلوين الدوائر بعد كل تحديث Livewire
+            document.addEventListener('livewire:navigated', reapplyOnlineStatus);
+            Livewire.hook('morph.updated', () => {
+                reapplyOnlineStatus();
+            });
+
+            function reapplyOnlineStatus() {
+                onlineUserIds.forEach(id => markOnline(id));
             }
 
             // ═══ 2. لما يتغير المستخدم المختار بالشات ═══
@@ -186,6 +204,13 @@
                     .listenForWhisper('typing', (e) => {
                         showTypingIndicator(e.name);
                     });
+
+
+                // ⭐ سطر جديد: تأكد إنه الصندوق ينزل لآخر رسالة فور فتح المحادثة
+                setTimeout(() => {
+                    const box = document.getElementById('messages-box');
+                    if (box) box.scrollTop = box.scrollHeight;
+                }, 100);
             });
 
             function appendMessage(e) {
